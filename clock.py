@@ -3,32 +3,6 @@ from datetime import timedelta
 import tkinter as tk
 from tkinter import ttk 
 
-## starts the timer (but it won't stop!!)
-# def runTimer():
-#     start = datetime.now()
-#     toggleButtonText()
-
-#     while (tButtonText.get() == "Stop timer"):
-#         continue
-#     # input("Press enter to stop TIMER.")
-#     end = datetime.now()
-#     toggleButtonText()
-    
-#     print("hours:minutes:seconds:milliseconds")
-#     print(end-start)
-
-## toggles the button text
-# def toggleButtonText():
-#     buttonText = tButtonText.get()
-#     if buttonText == "Start timer":
-#         tButtonText.set("Stop timer")
-#     elif buttonText == "Stop timer":
-#         tButtonText.set("Reset timer") 
-#     else:
-#         tButtonText.set("Start timer") 
-#     selectionWindow.update()
-
-
 ## collect countdown data
 def collectCDData():
     time = [0,0,0]
@@ -44,38 +18,18 @@ def collectCDData():
 def runCountdown(time): ## time = [hours, minutes, seconds]
     totalSec = (time[0] * 60 * 60) + (time[1] * 60) + time[2]    
     start = datetime.now()
-    i = 0
+    secsPassed = 0
     timeLeft = totalSec
-    while (datetime.now() <= start+timedelta(seconds=totalSec)):
-        if datetime.now() >= start+timedelta(seconds=i):
-            displayCDStatus(timeLeft)
-            timeLeft = totalSec-i
-            i += 1
+    while (secsPassed <= totalSec):
+        if datetime.now() >= start+timedelta(seconds=secsPassed):
+            displayCDStatus(totalSec-secsPassed)
+            timeLeft = totalSec-secsPassed
+            secsPassed += 1
         continue
     
     cdStatusText.set("The countdown has ended!")
     selectionWindow.update()
     return 0
-
-## collect timer data and start timer
-# def startT():
-#     runTimer()
-
-## toggles the button test to end the timer
-# def stopT():
-#     toggleButtonText()
-
-## toggles the button text and resets the display
-# def restT():
-#     return None
-
-## decides what the button will do based on the name of the button
-# def toggleCommand():
-#     buttonText = tButtonText.get()
-#     if buttonText == "Start timer":
-#         startT()
-#     elif buttonText == "Stop timer":
-#         stopT()
 
 #################
 #################
@@ -91,26 +45,16 @@ selectionWindow.title("Stopwatch")
 ## frames for timer and stopwatch
 mainFrame = tk.Frame(selectionWindow)
 mainFrame.pack()
-# tFrame = tk.Frame(mainFrame)
 cdFrame = tk.Frame(mainFrame)
-# tFrame.pack(side = "left")
-# cdFrame.pack(side = "right")
 cdFrame.pack()
 
 ## labels for the frames
-# tLabel = tk.Label(tFrame, text = "Timer")
 cdLabel = tk.Label(cdFrame, text = "Countdown")
-# tLabel.pack(side = "top")
 cdLabel.pack(side = "top")
-
-## collect timer data
-# def collectTData():
-#     return None
 
 ## diplay Entrys for the frames
 cdStatusText = tk.StringVar(cdFrame)
 cdEndText = tk.StringVar(cdFrame)
-# tStatusEntry = ttk.Entry(tFrame)
 cdStatusEntry = ttk.Entry(cdFrame, width=30)
 
 ## displays the countdown status
@@ -139,7 +83,7 @@ def displayCDStatus(timeLeft):
     timeLeftString += str(timeLeft)
     
     cdStatusText.set(timeLeftString)
-    cdStatusEntry.configure(textvariable=cdStatusText)
+    cdStatusEntry.configure(textvariable=cdStatusText, foreground="green")
     selectionWindow.update()
 
 ## collect countdown data and start countdown
@@ -162,15 +106,10 @@ secLabel.pack()
 secEntry.pack()
 
 ## buttons for the frames
-# tButtonText = tk.StringVar(tFrame)
-# tButtonText.set("Start timer")
-# tStartButton = ttk.Button(tFrame, textvariable = tButtonText, command = toggleCommand)
 cdStartButton = ttk.Button(cdFrame, text = "Start Countdown", command = startCD)
-# tStartButton.pack()
 cdStartButton.pack()
 
 ## pack display for the countdown and timer
-# tStatusEntry.pack()
 cdStatusEntry.pack()
 
 selectionWindow.mainloop()
