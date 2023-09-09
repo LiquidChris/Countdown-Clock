@@ -112,4 +112,9 @@ cdStartButton.pack()
 ## pack display for the countdown and timer
 cdStatusEntry.pack()
 
-selectionWindow.mainloop()
+## starts the program
+if __name__ == "__main__":
+    selectionWindow.mainloop()
+
+import ctypes
+ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 6 )
